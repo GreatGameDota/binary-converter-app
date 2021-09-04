@@ -13,6 +13,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 
 import validate from '../scripts/validate';
+import calc from '../scripts/calculate';
 
 const styles = (theme) => ({
 	...theme.spread,
@@ -26,6 +27,11 @@ const styles = (theme) => ({
 	},
 	button: {
 		margin: theme.spacing(3)
+	},
+	titles: {
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center'
 	}
 });
 
@@ -37,8 +43,8 @@ class Calculator extends Component {
 		error: false,
 		errorMsg: '',
 		error2: false,
-        error2Msg: '',
-        outputs: [0, 0, 0, 0]
+		error2Msg: '',
+		outputs: [ 0, 0, 0, 0 ]
 	};
 
 	render () {
@@ -65,19 +71,18 @@ class Calculator extends Component {
 			clearErrors2();
 		};
 		const handleSubmit = () => {
-			const ret = validate(this.state.type, this.state.input, this.state.bits);
+			const ret = validate(this.state.type, String(this.state.input).trim(), this.state.bits);
 			this.setState({ error: ret[0][0], errorMsg: ret[0][1], error2: ret[1][0], error2Msg: ret[1][1] });
+			if (!ret[0][0] && !ret[1][0])
+				this.setState({ outputs: calc(this.state.type, String(this.state.input).trim(), this.state.bits) });
 			this.forceUpdate();
 		};
 
 		const types = [ 'Binary', 'Decimal', 'Hexadecimal' ];
 		const type = types[this.state.type];
 		let outputTypes = types.filter((t, i) => i !== this.state.type);
-		if (this.state.type < 2) outputTypes = [ outputTypes[0] ].concat(outputTypes);
-		else {
-			outputTypes = [ outputTypes[0] ].concat(outputTypes);
-			outputTypes = outputTypes.concat(outputTypes[outputTypes.length - 1]);
-		}
+		outputTypes = [ outputTypes[0] ].concat(outputTypes);
+		outputTypes = outputTypes.concat(outputTypes[outputTypes.length - 1]);
 
 		return (
 			<Box className={classes.content} borderRadius={4} boxShadow={3}>
@@ -138,11 +143,11 @@ class Calculator extends Component {
 					Convert
 				</Button>
 				<Grid container spacing={3}>
-					<Grid item xs={12} sm={6}>
+					<Grid item xs={12} sm={6} className={classes.titles}>
 						<Typography variant='h6'>Output</Typography>
 					</Grid>
-					<Grid item xs={12} sm={6}>
-						<Typography variant='h6'>Two's Complement</Typography>
+					<Grid item xs={12} sm={6} className={classes.titles}>
+						<Typography variant='body1'>Two's Complement</Typography>
 					</Grid>
 					{outputTypes.map((t, i) => (
 						<Grid item xs={12} sm={6} key={i}>
@@ -151,8 +156,8 @@ class Calculator extends Component {
 								name={t.toLowerCase()}
 								label={t}
 								fullWidth
-                                variant='filled'
-                                value={this.state.outputs[i]}
+								variant='filled'
+								value={this.state.outputs[i]}
 							/>
 						</Grid>
 					))}

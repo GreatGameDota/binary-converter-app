@@ -16,8 +16,9 @@ const validate = (type, input, bits) => {
 	} else if (type === 2) {
 		// Hexadecimal
 		if (input.substring(0, 2) === '0x') input = input.substring(2, input.length);
+		input = input.toUpperCase();
 		if (input === '') errors.push([ true, "Input can't be empty" ]);
-		else if (/^[0123456789abcdef.]+$/.test(input)) errors.push([ false, '' ]);
+		else if (/^[0123456789ABCDEF.]+$/.test(input)) errors.push([ false, '' ]);
 		else errors.push([ true, 'Invalid hexadecimal input' ]);
 	}
 

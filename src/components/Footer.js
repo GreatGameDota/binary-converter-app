@@ -24,6 +24,7 @@ const styles = (theme) => ({
 		padding: '3px'
 	},
 	rights: {
+		fontFamily: 'Roboto',
 		color: 'rgba(0,0,0,0.5)',
 		fontSize: '0.7rem'
 	}
