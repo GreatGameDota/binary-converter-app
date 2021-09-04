@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/binart-converter/static/css/main.32b48723.chunk.css",
-    "main.js": "/binart-converter/static/js/main.4807ce4c.chunk.js",
-    "main.js.map": "/binart-converter/static/js/main.4807ce4c.chunk.js.map",
-    "runtime-main.js": "/binart-converter/static/js/runtime-main.1839e8bb.js",
-    "runtime-main.js.map": "/binart-converter/static/js/runtime-main.1839e8bb.js.map",
-    "static/js/2.7c77d291.chunk.js": "/binart-converter/static/js/2.7c77d291.chunk.js",
-    "static/js/2.7c77d291.chunk.js.map": "/binart-converter/static/js/2.7c77d291.chunk.js.map",
-    "static/js/3.16304aa6.chunk.js": "/binart-converter/static/js/3.16304aa6.chunk.js",
-    "static/js/3.16304aa6.chunk.js.map": "/binart-converter/static/js/3.16304aa6.chunk.js.map",
-    "index.html": "/binart-converter/index.html",
-    "static/css/main.32b48723.chunk.css.map": "/binart-converter/static/css/main.32b48723.chunk.css.map",
-    "static/js/2.7c77d291.chunk.js.LICENSE.txt": "/binart-converter/static/js/2.7c77d291.chunk.js.LICENSE.txt",
-    "static/media/github.16a9304e.svg": "/binart-converter/static/media/github.16a9304e.svg"
+    "main.css": "/binary-converter/static/css/main.32b48723.chunk.css",
+    "main.js": "/binary-converter/static/js/main.4807ce4c.chunk.js",
+    "main.js.map": "/binary-converter/static/js/main.4807ce4c.chunk.js.map",
+    "runtime-main.js": "/binary-converter/static/js/runtime-main.76af2df6.js",
+    "runtime-main.js.map": "/binary-converter/static/js/runtime-main.76af2df6.js.map",
+    "static/js/2.7c77d291.chunk.js": "/binary-converter/static/js/2.7c77d291.chunk.js",
+    "static/js/2.7c77d291.chunk.js.map": "/binary-converter/static/js/2.7c77d291.chunk.js.map",
+    "static/js/3.16304aa6.chunk.js": "/binary-converter/static/js/3.16304aa6.chunk.js",
+    "static/js/3.16304aa6.chunk.js.map": "/binary-converter/static/js/3.16304aa6.chunk.js.map",
+    "index.html": "/binary-converter/index.html",
+    "static/css/main.32b48723.chunk.css.map": "/binary-converter/static/css/main.32b48723.chunk.css.map",
+    "static/js/2.7c77d291.chunk.js.LICENSE.txt": "/binary-converter/static/js/2.7c77d291.chunk.js.LICENSE.txt",
+    "static/media/github.16a9304e.svg": "/binary-converter/static/media/github.16a9304e.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.1839e8bb.js",
+    "static/js/runtime-main.76af2df6.js",
     "static/js/2.7c77d291.chunk.js",
     "static/css/main.32b48723.chunk.css",
     "static/js/main.4807ce4c.chunk.js"
