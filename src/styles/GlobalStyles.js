@@ -1,21 +1,14 @@
+import blue from '@material-ui/core/colors/blue';
+import cyan from '@material-ui/core/colors/cyan';
+
 export default {
 	palette: {
-		primary: {
-			light: '#33c9dc',
-			main: '#00bcd4',
-			dark: '#008394',
-			contrastText: '#fff'
-		},
-		secondary: {
-			light: '#ff6333',
-			main: '#ff3d00',
-			dark: '#b22a00',
-			contrastText: '#fff'
-		}
+		primary: blue,
+		secondary: cyan
 	},
 	spread: {
 		typography: {
-			fontFamily: ['Roboto'].join(',')
+			fontFamily: [ 'Roboto' ].join(',')
 		}
 	}
 };

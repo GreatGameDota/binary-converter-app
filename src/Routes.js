@@ -24,8 +24,8 @@ export default class Routes extends Component {
 			<MuiThemeProvider theme={theme}>
 				<Router history={this.history}>
 					<Switch>
-						<Route exact path='/binary-converter' render={(routeProps) => <HomePage {...routeProps} />} />
-						<Redirect to='/binary-converter' />
+						<Route exact path='/binary-converter-app' render={(routeProps) => <HomePage {...routeProps} />} />
+						<Redirect to='/binary-converter-app' />
 					</Switch>
 				</Router>
 			</MuiThemeProvider>

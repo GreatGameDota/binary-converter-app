@@ -13,7 +13,7 @@ const styles = (theme) => ({
 		color: '#ffffff',
 		textAlign: 'center',
 		padding: '8px 0 8px 0',
-        backgroundColor: theme.palette.primary.dark
+        backgroundColor: theme.palette.secondary.main
 	},
 	link: {
 		padding: '8px',
@@ -25,7 +25,7 @@ const styles = (theme) => ({
 	},
 	rights: {
 		fontFamily: 'Roboto',
-		color: 'rgba(0,0,0,0.5)',
+		color: 'rgba(0,0,0,0.9)',
 		fontSize: '0.7rem'
 	}
 });

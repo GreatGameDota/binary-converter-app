@@ -1,7 +1,7 @@
 {
-  "name": "binary-converter",
+  "name": "binary-converter-app",
   "version": "0.1.0",
-	"homepage": "http://greatgamedota.github.io/binart-converter",
+	"homepage": "http://greatgamedota.github.io/binary-converter-app",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.12.3",
