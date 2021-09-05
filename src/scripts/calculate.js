@@ -182,7 +182,7 @@ const calc = (type, input, bits) => {
 			output1 = String(Number(output1) + Number(frac));
 		}
 
-		if (input1.length >= bits && input1[0] === '1') {
+		if (input1[0] === '1') {
 			let ret = twosComplement(input);
 			output2 = ret[0];
 		}
