@@ -182,7 +182,19 @@ const calc = (type, input, bits) => {
 			output1 = String(Number(output1) + Number(frac));
 		}
 
-		if (input1[0] === '1') {
+		if (input1[0] === '1' || (input1 === '' && input2[0] === '1')) {
+			if (input1 && input1 !== '') {
+				while (input1.length < bits) {
+					input = '0' + input;
+					input1 = '0' + input1;
+				}
+			}
+			if (input2 && input2 !== '') {
+				while (input2.length < bits) {
+					input += '0';
+					input2 += '0';
+				}
+			}
 			let ret = twosComplement(input);
 			output2 = ret[0];
 		}
@@ -230,7 +242,9 @@ const calc = (type, input, bits) => {
 
 		output1 = hex2bin(input1);
 		output3 = bin2int(output1);
-		while (output1.length < bits) output1 = '0' + output1;
+		if (input1 && input1 !== '') {
+			while (output1.length < bits) output1 = '0' + output1;
+		}
 
 		if (input2 && input2 !== '') {
 			let frac = hex2bin(input2);
@@ -239,8 +253,8 @@ const calc = (type, input, bits) => {
 			output1 += '.' + frac;
 			output3 = String(Number(output3) + Number(frac2));
 		}
-
-		if (output1[0] === '1') {
+		
+		if (output1[0] === '1' || (output1.split('.')[0] === '' && output1.split('.')[1][0] === '1')) {
 			let ret = twosComplement(output1);
 			if (input2 && input2 !== '') output2 = ret[1];
 			else output2 = ret[1].substring(0, ret[1].length - 1);
