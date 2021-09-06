@@ -5,6 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Footer from './Footer';
 import Calculator from './Calculator';
+import Calculator2 from './Calculator2';
 import GithubIcon from '../resources/github.svg';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
@@ -82,6 +83,8 @@ class HomePage extends Component {
 					</Typography>
 					<hr />
 					<Calculator />
+					<br />
+					<Calculator2 />
 				</Paper>
 				<div className={classes.footer}>
 					<Footer />

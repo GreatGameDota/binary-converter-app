@@ -38,7 +38,7 @@ function bin2intFrac (num) {
 	return String(count);
 }
 
-function frac2bin (num, precision) {
+function frac2bin (num) {
 	num = Number('.' + num);
 	let frac = 0.5;
 	let bin = '';
@@ -52,53 +52,6 @@ function frac2bin (num, precision) {
 		frac /= 2;
 	}
 	return bin;
-}
-
-function twosComplement (num) {
-	let input1 = num.split('.')[0];
-	let input2 = num.split('.')[1];
-	let temp1 = '';
-	let temp2 = '';
-	for (let i = 0; i < input1.length; i++) {
-		temp1 += input1[i] === '1' ? '0' : '1';
-	}
-	if (input2 && input2 !== '') {
-		for (let i = 0; i < input2.length; i++) {
-			temp2 += input2[i] === '1' ? '0' : '1';
-		}
-	}
-
-	temp2 = temp1 + '.' + temp2;
-	input2 = '';
-	let i;
-	for (i = temp2.length - 1; i >= 0; i--) {
-		if (temp2[i] === '0') {
-			input2 = '1' + input2;
-			break;
-		} else if (temp2[i] === '1') {
-			input2 = '0' + input2;
-		} else {
-			input2 = temp2[i] + input2;
-		}
-	}
-	for (let j = i - 1; j >= 0; j--) {
-		input2 = temp2[j] + input2;
-	}
-
-	let bin = input2;
-
-	input1 = input2.split('.')[0];
-	input2 = input2.split('.')[1];
-
-	let output2 = bin2int(input1);
-
-	let frac;
-	if (input2 && input2 !== '') {
-		frac = bin2intFrac(input2);
-		output2 = String(Number(output2) + Number(frac));
-	}
-
-	return [ -output2, bin ];
 }
 
 function bin2hex (num, bits) {
@@ -160,9 +113,10 @@ function hex2bin (num) {
 	return bin;
 }
 
-const calc = (type, input, bits) => {
-	input = String(input);
-	bits = Number(bits);
+const calc = (type, input, bits1, bits2) => {
+    input = String(input);
+    bits1 = Number(bits1);
+    bits2 = Number(bits2);
 	let output1 = 0,
 		output2 = 0,
 		output3 = 0,
@@ -173,7 +127,30 @@ const calc = (type, input, bits) => {
 		if (input.substring(0, 2) === '0b') input = input.substring(2, input.length);
 
 		let input1 = input.split('.')[0];
-		let input2 = input.split('.')[1];
+
+		let sign = input1[0];
+
+        let exponent = Number(bin2int(input1.substring(1, bits1 + 1)));
+        exponent -= Math.pow(2, bits1 - 1) - 1;
+
+		let fraction = '1' + input1.substring(bits1 + 1);
+		let i = fraction.length - 1;
+		while (fraction[i] === '0') i--;
+        fraction = fraction.substring(0, i + 1);
+        
+		let num;
+		if (exponent >= 0) {
+			num = fraction.substring(0, exponent + 1) + '.' + fraction.substring(exponent + 1);
+		} else {
+			for (let i = 0; i < Math.abs(exponent) - 1; i++) {
+				fraction = '0' + fraction;
+			}
+			fraction = '.' + fraction;
+			num = fraction;
+        }
+
+		input1 = num.split('.')[0];
+		let input2 = num.split('.')[1];
 
 		output1 = bin2int(input1);
 
@@ -183,24 +160,9 @@ const calc = (type, input, bits) => {
 			output1 = String(Number(output1) + Number(frac));
 		}
 
-		if (input1[0] === '1' || (input1 === '' && input2[0] === '1')) {
-			if (input1 && input1 !== '') {
-				while (input1.length < bits) {
-					input = '0' + input;
-					input1 = '0' + input1;
-				}
-			}
-			if (input2 && input2 !== '') {
-				while (input2.length < bits) {
-					input += '0';
-					input2 += '0';
-				}
-			}
-			let ret = twosComplement(input);
-			output2 = ret[0];
-		}
+		output1 *= sign === '1' ? -1 : 1;
 
-		output3 = bin2hex(input, bits);
+		output2 = bin2hex(input);
 	} else if (type === 1) {
 		// Decimal
 		let input1 = input.split('.')[0];
@@ -209,60 +171,77 @@ const calc = (type, input, bits) => {
 
 		output1 = int2bin(Math.abs(input1));
 
-		while (output1.length < bits) output1 = '0' + output1;
+		let expo = output1.length;
 
 		if (input2 && input2 !== '') {
-			let frac = frac2bin(input2, bits);
-			while (frac.length < bits) frac += '0';
-			output1 += '.' + frac;
+			let frac = frac2bin(input2);
+			output1 += frac;
 		}
 
-		if (input1 < 0) {
-			let ret = twosComplement(output1);
-			if (input2 && input2 !== '') output2 = ret[1];
-			else output2 = ret[1].substring(0, ret[1].length - 1);
-
-			if (output2[0] === '0') output2 = '1' + output2;
-			while (output2.length < bits) output2 = '1' + output2;
-		} else {
-			while (output1.length < bits) {
-				output1 = '0' + output1;
+		let frac;
+		for (let i = 0; i < output1.length; i++) {
+			if (output1[i] === '1') {
+				expo -= i + 1;
+				frac = i + 1;
+				break;
 			}
 		}
 
-		output3 = bin2hex(String(output1), bits);
-		if (input1 < 0) {
-			output4 = bin2hex(String(output2), bits);
-		}
+		let sign = Number(input) < 0 ? 1 : 0;
+
+		let exponent = int2bin(expo + Math.pow(2, bits1 - 1) - 1);
+		while (exponent.length < bits1) exponent = '0' + exponent;
+
+		let fraction = output1.substring(frac);
+		while (fraction.length < bits2) fraction += '0';
+
+		output1 = sign + exponent + fraction;
+
+		output2 = bin2hex(output1);
 	} else if (type === 2) {
 		// Hexadecimal
 		if (input.substring(0, 2) === '0x') input = input.substring(2, input.length);
 		input = input.toUpperCase();
 
 		let input1 = input.split('.')[0];
-		let input2 = input.split('.')[1];
 
 		output1 = hex2bin(input1);
-		output3 = bin2int(output1);
-		if (input1 && input1 !== '') {
-			while (output1.length < bits) output1 = '0' + output1;
+
+		input1 = output1.split('.')[0];
+
+		let sign = input1[0];
+
+		let exponent = Number(bin2int(input1.substring(1, bits1 + 1)));
+		exponent -= Math.pow(2, bits1 - 1) - 1;
+
+		let fraction = '1' + input1.substring(bits1 + 1);
+		let i = fraction.length - 1;
+		while (fraction[i] === '0') i--;
+		fraction = fraction.substring(0, i + 1);
+
+		let num;
+		if (exponent >= 0) {
+			num = fraction.substring(0, exponent + 1) + '.' + fraction.substring(exponent + 1);
+		} else {
+			for (let i = 0; i < Math.abs(exponent) - 1; i++) {
+				fraction = '0' + fraction;
+			}
+			fraction = '.' + fraction;
+			num = fraction;
 		}
 
+		input1 = num.split('.')[0];
+		let input2 = num.split('.')[1];
+
+		output2 = bin2int(input1);
+
+		let frac;
 		if (input2 && input2 !== '') {
-			let frac = hex2bin(input2);
-			let frac2 = bin2intFrac(frac);
-			while (frac.length < bits) frac += '0';
-			output1 += '.' + frac;
-			output3 = String(Number(output3) + Number(frac2));
+			frac = bin2intFrac(input2);
+			output2 = String(Number(output2) + Number(frac));
 		}
 
-		if (output1[0] === '1' || (output1.split('.')[0] === '' && output1.split('.')[1][0] === '1')) {
-			let ret = twosComplement(output1);
-			if (input2 && input2 !== '') output2 = ret[1];
-			else output2 = ret[1].substring(0, ret[1].length - 1);
-
-			output4 = ret[0];
-		}
+		output2 *= sign === '1' ? -1 : 1;
 	}
 
 	return [ output1, output2, output3, output4 ];
