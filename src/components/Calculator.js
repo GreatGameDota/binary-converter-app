@@ -57,7 +57,7 @@ class Calculator extends Component {
 			this.setState({ error2: false, error2Msg: '' });
 		};
 		const handleChange = (event) => {
-			this.setState({ type: event.target.value });
+			this.setState({ type: event.target.value, input: 0 });
 			clearErrors();
 			clearErrors2();
 			this.forceUpdate();
