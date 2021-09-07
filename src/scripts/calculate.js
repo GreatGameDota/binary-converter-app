@@ -217,7 +217,7 @@ const calc = (type, input, bits) => {
 			output1 += '.' + frac;
 		}
 
-		if (input1 < 0) {
+		if (Number(input) < 0) {
 			let ret = twosComplement(output1);
 			if (input2 && input2 !== '') output2 = ret[1];
 			else output2 = ret[1].substring(0, ret[1].length - 1);
@@ -231,7 +231,7 @@ const calc = (type, input, bits) => {
 		}
 
 		output3 = bin2hex(String(output1), bits);
-		if (input1 < 0) {
+		if (Number(input) < 0) {
 			output4 = bin2hex(String(output2), bits);
 		}
 	} else if (type === 2) {
