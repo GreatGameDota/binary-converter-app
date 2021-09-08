@@ -140,7 +140,15 @@ const calc = (type, input, bits1, bits2) => {
 
 		let num;
 		if (exponent >= 0) {
-			num = fraction.substring(0, exponent + 1) + '.' + fraction.substring(exponent + 1);
+			if (exponent > fraction.length) {
+				let size = fraction.length;
+				for (let i = 0; i <= exponent - size; i++) {
+					fraction += '0';
+				}
+				num = fraction + '.';
+			} else {
+				num = fraction.substring(0, exponent + 1) + '.' + fraction.substring(exponent + 1);
+			}
 		} else {
 			for (let i = 0; i < Math.abs(exponent) - 1; i++) {
 				fraction = '0' + fraction;
@@ -194,10 +202,10 @@ const calc = (type, input, bits1, bits2) => {
 
 		let fraction = output1.substring(frac);
 		while (fraction.length < bits2) fraction += '0';
-		
+
 		if (fraction.length > bits2) {
 			fraction = fraction.substring(0, bits2);
-			
+
 			let newFrac = '';
 			let i;
 			for (i = fraction.length - 1; i >= 0; i--) {
@@ -242,7 +250,15 @@ const calc = (type, input, bits1, bits2) => {
 
 		let num;
 		if (exponent >= 0) {
-			num = fraction.substring(0, exponent + 1) + '.' + fraction.substring(exponent + 1);
+			if (exponent > fraction.length) {
+				let size = fraction.length;
+				for (let i = 0; i <= exponent - size; i++) {
+					fraction += '0';
+				}
+				num = fraction + '.';
+			} else {
+				num = fraction.substring(0, exponent + 1) + '.' + fraction.substring(exponent + 1);
+			}
 		} else {
 			for (let i = 0; i < Math.abs(exponent) - 1; i++) {
 				fraction = '0' + fraction;
