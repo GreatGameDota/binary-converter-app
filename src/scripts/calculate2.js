@@ -114,9 +114,9 @@ function hex2bin (num) {
 }
 
 const calc = (type, input, bits1, bits2) => {
-    input = String(input);
-    bits1 = Number(bits1);
-    bits2 = Number(bits2);
+	input = String(input);
+	bits1 = Number(bits1);
+	bits2 = Number(bits2);
 	let output1 = 0,
 		output2 = 0,
 		output3 = 0,
@@ -130,14 +130,14 @@ const calc = (type, input, bits1, bits2) => {
 
 		let sign = input1[0];
 
-        let exponent = Number(bin2int(input1.substring(1, bits1 + 1)));
-        exponent -= Math.pow(2, bits1 - 1) - 1;
+		let exponent = Number(bin2int(input1.substring(1, bits1 + 1)));
+		exponent -= Math.pow(2, bits1 - 1) - 1;
 
 		let fraction = '1' + input1.substring(bits1 + 1);
 		let i = fraction.length - 1;
 		while (fraction[i] === '0') i--;
-        fraction = fraction.substring(0, i + 1);
-        
+		fraction = fraction.substring(0, i + 1);
+
 		let num;
 		if (exponent >= 0) {
 			num = fraction.substring(0, exponent + 1) + '.' + fraction.substring(exponent + 1);
@@ -147,7 +147,7 @@ const calc = (type, input, bits1, bits2) => {
 			}
 			fraction = '.' + fraction;
 			num = fraction;
-        }
+		}
 
 		input1 = num.split('.')[0];
 		let input2 = num.split('.')[1];
@@ -194,6 +194,27 @@ const calc = (type, input, bits1, bits2) => {
 
 		let fraction = output1.substring(frac);
 		while (fraction.length < bits2) fraction += '0';
+		
+		if (fraction.length > bits2) {
+			fraction = fraction.substring(0, bits2);
+			
+			let newFrac = '';
+			let i;
+			for (i = fraction.length - 1; i >= 0; i--) {
+				if (fraction[i] === '0') {
+					newFrac = '1' + newFrac;
+					break;
+				} else if (fraction[i] === '1') {
+					newFrac = '0' + newFrac;
+				} else {
+					newFrac = fraction[i] + newFrac;
+				}
+			}
+			for (i = i - 1; i >= 0; i--) {
+				newFrac = fraction[i] + newFrac;
+			}
+			fraction = newFrac;
+		}
 
 		output1 = sign + exponent + fraction;
 

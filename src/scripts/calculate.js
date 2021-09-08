@@ -38,7 +38,7 @@ function bin2intFrac (num) {
 	return String(count);
 }
 
-function frac2bin (num, precision) {
+function frac2bin (num) {
 	num = Number('.' + num);
 	let frac = 0.5;
 	let bin = '';
@@ -212,7 +212,7 @@ const calc = (type, input, bits) => {
 		while (output1.length < bits) output1 = '0' + output1;
 
 		if (input2 && input2 !== '') {
-			let frac = frac2bin(input2, bits);
+			let frac = frac2bin(input2);
 			while (frac.length < bits) frac += '0';
 			output1 += '.' + frac;
 		}
