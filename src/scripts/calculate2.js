@@ -204,24 +204,32 @@ const calc = (type, input, bits1, bits2) => {
 		while (fraction.length < bits2) fraction += '0';
 
 		if (fraction.length > bits2) {
+			let cutoff = fraction.substring(bits2);
+			let round = false;
 			fraction = fraction.substring(0, bits2);
+			
+			for (let i = 0; i < cutoff.length; i++) {
+				if (cutoff[i] === '1') round = true;
+			}
 
-			let newFrac = '';
-			let i;
-			for (i = fraction.length - 1; i >= 0; i--) {
-				if (fraction[i] === '0') {
-					newFrac = '1' + newFrac;
-					break;
-				} else if (fraction[i] === '1') {
-					newFrac = '0' + newFrac;
-				} else {
+			if (round) {
+				let newFrac = '';
+				let i;
+				for (i = fraction.length - 1; i >= 0; i--) {
+					if (fraction[i] === '0') {
+						newFrac = '1' + newFrac;
+						break;
+					} else if (fraction[i] === '1') {
+						newFrac = '0' + newFrac;
+					} else {
+						newFrac = fraction[i] + newFrac;
+					}
+				}
+				for (i = i - 1; i >= 0; i--) {
 					newFrac = fraction[i] + newFrac;
 				}
+				fraction = newFrac;
 			}
-			for (i = i - 1; i >= 0; i--) {
-				newFrac = fraction[i] + newFrac;
-			}
-			fraction = newFrac;
 		}
 
 		output1 = sign + exponent + fraction;
