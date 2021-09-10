@@ -40,17 +40,15 @@ function bin2intFrac (num) {
 
 function frac2bin (num) {
 	num = Number('.' + num);
-	let frac = 0.5;
+	num *= Math.pow(2, 16);
+	num = Math.round(num);
 	let bin = '';
-	while (num > 1e-8) {
-		if (num >= frac) {
-			bin += '1';
-			num -= frac;
-		} else {
-			bin += '0';
-		}
-		frac /= 2;
+	while (num > 0) {
+		let re = num % 2;
+		num = Math.floor(num / 2);
+		bin = re + bin;
 	}
+	while (bin.length < 16) bin = '0' + bin;
 	return bin;
 }
 
